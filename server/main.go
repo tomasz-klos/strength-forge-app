@@ -1,11 +1,22 @@
 package main
 
 import (
-	"fmt"
+	"encoding/json"
+	"log"
 	"net/http"
+
+	"github.com/rs/cors"
 )
 
+type Message struct {
+	Text string `json:"text"`
+}
+
 func main() {
-	fmt.Println("Server is running on port 8080")
-	http.ListenAndServe(":8080", nil)
+	mux := http.NewServeMux()
+
+	corsHandler := cors.Default().Handler(mux)
+	
+	log.Println("Server is running on port 8080")
+	log.Fatal(http.ListenAndServe(":8080", corsHandler))
 }
