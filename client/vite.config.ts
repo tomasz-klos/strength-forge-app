@@ -7,7 +7,6 @@ export default ({ mode }: any) => {
 
   return defineConfig({
     plugins: [react()],
-
     resolve: {
       alias: {
         "@atoms": path.resolve(__dirname, "./src/components/atoms"),
@@ -16,9 +15,9 @@ export default ({ mode }: any) => {
         "@templates": path.resolve(__dirname, "./src/components/templates"),
         "@pages": path.resolve(__dirname, "./src/components/pages"),
         "@config": path.resolve(__dirname, "./src/config"),
+        "@lib": path.resolve(__dirname, "./src/lib"),
       },
     },
-
     server: {
       port: 3000,
       proxy: {

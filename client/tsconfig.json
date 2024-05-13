@@ -22,12 +22,13 @@
 
     "baseUrl": ".",
     "paths": {
-      "@atoms/*": ["./src/atoms/*"],
+      "@atoms/*": ["./src/components/atoms/*"],
       "@molecules/*": ["./src/components/molecules/*"],
       "@organisms/*": ["./src/components/organisms/*"],
       "@templates/*": ["./src/components/templates/*"],
       "@pages/*": ["./src/components/pages/*"],
       "@config/*": ["./src/config/*"],
+      "@lib/*": ["./src/lib/*"],
     }
   },
   "references": [{ "path": "./tsconfig.node.json" }]
