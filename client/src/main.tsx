@@ -7,11 +7,14 @@ import "./global.css";
 
 import { router } from "@config/router";
 import { queryClient } from "@lib/queryClient";
+import { ThemeProvider } from "@providers/theme";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
+      <ThemeProvider defaultTheme="dark" storageKey="strength-ui-theme">
+        <RouterProvider router={router} />
+      </ThemeProvider>
     </QueryClientProvider>
   </React.StrictMode>
 );
