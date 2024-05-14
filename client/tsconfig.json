@@ -29,6 +29,8 @@
       "@pages/*": ["src/pages/*"],
       "@config/*": ["./src/config/*"],
       "@lib/*": ["./src/lib/*"],
+      "@providers/*": ["./src/providers/*"],
+      "@hooks/*": ["./src/hooks/*"],
     }
   },
   "references": [{ "path": "./tsconfig.node.json" }]
