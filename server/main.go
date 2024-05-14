@@ -5,41 +5,29 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"os"
 
-	"github.com/joho/godotenv"
+	"strength-forge-app/utils"
+
 	_ "github.com/lib/pq"
 	"github.com/rs/cors"
 )
 
-func GetEnvVariable(key string) (string, error) {
-	err := godotenv.Load(".env")
-	if err != nil {
-		return "", fmt.Errorf("error loading .env file: %w", err)
-	}
-	value := os.Getenv(key)
-	if value == "" {
-		return "", fmt.Errorf("environment variable %s not found", key)
-	}
-	return value, nil
-}
-
 var db *sql.DB
 
 func ConnectDB() (*sql.DB, error) {
-	dbName, err := GetEnvVariable("DB_NAME")
+	dbName, err := utils.GetEnvVariable("DB_NAME")
 	if err != nil {
 		return nil, err
 	}
-	dbUser, err := GetEnvVariable("DB_USER")
+	dbUser, err := utils.GetEnvVariable("DB_USER")
 	if err != nil {
 		return nil, err
 	}
-	dbPassword, err := GetEnvVariable("DB_PASSWORD")
+	dbPassword, err := utils.GetEnvVariable("DB_PASSWORD")
 	if err != nil {
 		return nil, err
 	}
-	dbHost, err := GetEnvVariable("DB_HOST")
+	dbHost, err := utils.GetEnvVariable("DB_HOST")
 	if err != nil {
 		return nil, err
 	}
