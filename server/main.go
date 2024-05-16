@@ -5,21 +5,28 @@ import (
 	"net/http"
 
 	"strength-forge-app/db"
+	"strength-forge-app/handlers"
+	"strength-forge-app/internal/repositories"
+	"strength-forge-app/internal/services"
 
 	"github.com/rs/cors"
 )
 
+func init() {
+	db.Init()
+	db.AutoMigrate()
+}
+
 func main() {
-	var err error
 	mux := http.NewServeMux()
 	corsHandler := cors.Default().Handler(mux)
+	userRepo := repositories.NewPostgresUserRepository(db.DB)
+	authService := services.NewAuthService(userRepo)
+	userHandler := handlers.NewAuthHandler(*authService)
 
-	db, err := db.Init()
-	if err != nil {
-		log.Fatalf("error connecting to database: %v", err)
-	}
+	mux.HandleFunc("/api/register", userHandler.RegisterUser)
+	mux.HandleFunc("/api/login", userHandler.LogIn)
 
 	log.Println("Server is running on port 8080")
-	log.Print("Connected to database: ", db.Migrator().CurrentDatabase())
 	log.Fatal(http.ListenAndServe(":8080", corsHandler))
 }
