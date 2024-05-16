@@ -4,6 +4,8 @@ import (
 	"errors"
 	"strength-forge-app/internal/models"
 	"strength-forge-app/internal/repositories"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 var ErrInvalidCredentials = errors.New("invalid credentials")
@@ -28,7 +30,8 @@ func (s *AuthService) LogIn(user *models.User) error {
 		return err
 	}
 
-	if userFromDB.Password != user.Password {
+	err = bcrypt.CompareHashAndPassword([]byte(userFromDB.Password), []byte(user.Password))
+	if err != nil {
 		return ErrInvalidCredentials
 	}
 
