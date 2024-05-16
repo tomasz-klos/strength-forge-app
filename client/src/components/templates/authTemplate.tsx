@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 
-const AppLayout: React.FC = () => {
+const AppTemplate = () => {
   return (
     <div className="flex flex-col min-h-screen bg-zinc-950 text-zinc-50">
       <main className="flex-1 flex items-center justify-center px-4">
@@ -10,4 +10,4 @@ const AppLayout: React.FC = () => {
   );
 };
 
-export default AppLayout;
+export default AppTemplate;
