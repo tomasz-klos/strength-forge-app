@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -13,6 +14,7 @@ import {
 } from "@molecules/form";
 import { Button } from "@atoms/button";
 import { Input } from "@atoms/input";
+import { useToast } from "@atoms/use-toast";
 
 interface RegisterForm {
   name: string;
@@ -21,30 +23,36 @@ interface RegisterForm {
   confirmPassword: string;
 }
 
-const schema = z.object({
-  name: z
-    .string()
-    .min(3, "Name must be at least 3 characters long")
-    .max(100, "Name must be at most 100 characters long"),
-  email: z.string().email("Invalid email address"),
-  password: z
-    .string()
-    .min(8, "Password must be at least 8 characters long")
-    .max(100, "Password must be at most 100 characters long"),
-  confirmPassword: z
-    .string()
-    .min(8, "Password must be at least 8 characters long")
-    .max(100, "Password must be at most 100 characters long"),
-});
+const schema = z
+  .object({
+    name: z
+      .string()
+      .min(3, "Name must be at least 3 characters long")
+      .max(100, "Name must be at most 100 characters long"),
+    email: z.string().email("Invalid email address"),
+    password: z
+      .string()
+      .min(8, "Password must be at least 8 characters long")
+      .max(100, "Password must be at most 100 characters long"),
+    confirmPassword: z
+      .string()
+      .min(8, "Password must be at least 8 characters long")
+      .max(100, "Password must be at most 100 characters long"),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
 
 const createUser = async (data: RegisterForm) => {
-  const response = await axios.post("/api/register", data);
+  const response = await axios.post("/api/auth/register", data);
 
-  console.log(response.data);
   return response.data;
 };
 
 const RegisterForm = () => {
+  const { toast } = useToast();
+  const navigate = useNavigate();
   const form = useForm({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -57,16 +65,26 @@ const RegisterForm = () => {
 
   const { mutate } = useMutation({
     mutationFn: createUser,
-    onSuccess: (data) => {
-      console.log(data);
+    onSuccess: () => {
+      navigate("/");
+
+      toast({
+        title: "Success",
+        description: "You have successfully registered",
+      });
     },
-    onError: (error) => {
+    onError: (error: Error & { response: { data: { error: string } } }) => {
       console.error(error);
+
+      toast({
+        title: "Error",
+        description: error.response.data.error,
+        variant: "destructive",
+      });
     },
   });
 
   const onSubmit = form.handleSubmit((data) => {
-    console.log(data);
     mutate(data);
   });
 
