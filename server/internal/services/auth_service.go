@@ -20,8 +20,28 @@ func NewAuthService(repo repositories.UserRepository) *AuthService {
 	}
 }
 
-func (s *AuthService) CreateUser(user *models.User) error {
-	return s.repo.CreateUser(user)
+func (s *AuthService) CreateUser(user *models.User) (string, error) {
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
+	if err != nil {
+		log.Println(err)
+		return "", err
+	}
+
+	user.Password = string(hashedPassword)
+
+	err = s.repo.CreateUser(user)
+	if err != nil {
+		log.Println(err)
+		return "", err
+	}
+
+	token, err := utils.CreateToken(user.Email)
+	if err != nil {
+		log.Println(err)
+		return "", err
+	}
+
+	return token, nil
 }
 
 func (s *AuthService) LogIn(user *models.User) (string, error) {

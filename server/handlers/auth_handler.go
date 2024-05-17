@@ -28,12 +28,20 @@ func (h *AuthHandler) RegisterUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = h.service.CreateUser(&user)
+	token, err := h.service.CreateUser(&user)
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
+
+	http.SetCookie(w, &http.Cookie{
+		Name:     "token",
+		Value:    token,
+		Expires:  time.Now().Add(time.Hour * 24),
+		HttpOnly: true,
+		SameSite: http.SameSiteStrictMode,
+	})
 
 	w.WriteHeader(http.StatusCreated)
 }
