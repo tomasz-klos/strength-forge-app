@@ -24,7 +24,7 @@ func main() {
 	authService := services.NewAuthService(userRepo)
 	userHandler := handlers.NewAuthHandler(*authService)
 
-	mux.HandleFunc("/api/auth/authenticate", userHandler.Authenticate)
+	mux.HandleFunc("/api/auth/validate-token", userHandler.Authenticate)
 	mux.HandleFunc("/api/auth/register", userHandler.RegisterUser)
 	mux.HandleFunc("/api/auth/login", userHandler.LogIn)
 	mux.HandleFunc("/api/auth/logout", userHandler.LogOut)
