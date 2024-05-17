@@ -63,7 +63,7 @@ func (h *AuthHandler) LogIn(w http.ResponseWriter, r *http.Request) {
 	token, err := h.service.LogIn(&loginUser)
 	if err != nil {
 		log.Println(err)
-		writeJSONResponse(w, http.StatusUnauthorized, JSONResponse{Error: MsgUnauthorized})
+		writeJSONResponse(w, http.StatusUnauthorized, JSONResponse{Error: MsgInvalidPayload})
 		return
 	}
 
