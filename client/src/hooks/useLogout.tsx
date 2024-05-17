@@ -1,8 +1,7 @@
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 import { useToast } from "@atoms/use-toast";
-import { API_ROUTES } from "@config/enums";
+import { logoutUser } from "@services/auth_services";
 
 const useLogout = () => {
   const navigate = useNavigate();
@@ -10,7 +9,8 @@ const useLogout = () => {
 
   const logout = async () => {
     try {
-      await axios.post(API_ROUTES.LOGOUT);
+      await logoutUser();
+
       navigate("/login");
       toast({
         title: "Success",

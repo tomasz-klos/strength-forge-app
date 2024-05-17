@@ -23,6 +23,16 @@ export const registerUser = async (data: RegisterFormValues) => {
   }
 };
 
+export const logoutUser = async () => {
+  try {
+    const response: AxiosResponse = await axios.post(API_ROUTES.LOGOUT);
+    return response.data;
+  } catch (error) {
+    console.error("Error logging out:", error);
+    throw error;
+  }
+};
+
 export const validateToken = async () => {
   try {
     const response: AxiosResponse = await axios.get(API_ROUTES.VALIDATE_TOKEN);
