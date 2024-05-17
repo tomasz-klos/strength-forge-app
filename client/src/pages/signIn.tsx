@@ -11,7 +11,7 @@ import {
 } from "@atoms/card";
 import { buttonVariants } from "@atoms/button";
 
-const Register = () => {
+const Register: React.FC = () => {
   return (
     <Card className="max-w-sm w-full">
       <CardHeader>

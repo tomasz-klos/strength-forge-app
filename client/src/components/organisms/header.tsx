@@ -2,7 +2,7 @@ import { HomeIcon } from "@assets/icons/home-icon";
 import { SettingsIcon } from "@assets/icons/settings-icon";
 import { MenuItem } from "@atoms/menuItem";
 
-const Header = () => {
+const Header: React.FC = () => {
   const menuItems = [
     { name: "Home", url: "/", icon: HomeIcon },
     { name: "Settings", url: "/settings", icon: SettingsIcon },

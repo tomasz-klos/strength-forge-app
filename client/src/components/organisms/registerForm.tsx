@@ -14,7 +14,7 @@ import { registerUser } from "@services/auth_services";
 
 import { RegisterFormValues } from "@shared/form_types";
 
-const RegisterForm = () => {
+const RegisterForm: React.FC = () => {
   const { form, onSubmit } = useAuthForm<RegisterFormValues>({
     schema: registerSchema,
     mutationFn: registerUser,

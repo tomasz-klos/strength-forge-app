@@ -14,7 +14,7 @@ import { signInUser } from "@services/auth_services";
 
 import { SignInFormValues } from "@shared/form_types";
 
-const SignInForm = () => {
+const SignInForm: React.FC = () => {
   const { form, onSubmit } = useAuthForm<SignInFormValues>({
     schema: signInschema,
     mutationFn: signInUser,

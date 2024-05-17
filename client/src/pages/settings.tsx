@@ -1,7 +1,7 @@
 import { Button, buttonVariants } from "@atoms/button";
 import useLogout from "@hooks/useLogout";
 
-const Settings = () => {
+const Settings: React.FC = () => {
   const { logout } = useLogout();
 
   return (
