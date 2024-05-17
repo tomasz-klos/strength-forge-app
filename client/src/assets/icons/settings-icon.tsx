@@ -1,11 +1,6 @@
 import { cn } from "@lib/utils";
 
-type IconProps = {
-  className?: string;
-  width?: string;
-  height?: string;
-  variant?: "outline" | "filled";
-};
+import type { IconProps } from "@assets/icons";
 
 export const SettingsIcon = (props: IconProps) => {
   const { className, width = "24", height = "24", variant = "filled" } = props;

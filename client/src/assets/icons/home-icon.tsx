@@ -1,13 +1,8 @@
 import { cn } from "@lib/utils";
 
-type IconProps = {
-  className?: string;
-  width?: string;
-  height?: string;
-  variant?: "outline" | "filled";
-};
+import type { IconProps } from "@assets/icons";
 
-export const HomeIcon = (props: IconProps) => {
+export const HomeIcon: React.FC<IconProps> = (props: IconProps) => {
   const { className, width = "24", height = "24", variant = "filled" } = props;
 
   const classes = cn("min-w-max", className);
