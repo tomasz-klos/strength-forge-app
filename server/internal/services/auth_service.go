@@ -2,13 +2,13 @@ package services
 
 import (
 	"errors"
+	"log"
 	"strength-forge-app/internal/models"
 	"strength-forge-app/internal/repositories"
+	"strength-forge-app/utils"
 
 	"golang.org/x/crypto/bcrypt"
 )
-
-var ErrInvalidCredentials = errors.New("invalid credentials")
 
 type AuthService struct {
 	repo repositories.UserRepository
@@ -24,16 +24,22 @@ func (s *AuthService) CreateUser(user *models.User) error {
 	return s.repo.CreateUser(user)
 }
 
-func (s *AuthService) LogIn(user *models.User) error {
+func (s *AuthService) LogIn(user *models.User) (string, error) {
 	userFromDB, err := s.repo.GetUserByEmail(user.Email)
 	if err != nil {
-		return err
+		return "", err
 	}
 
 	err = bcrypt.CompareHashAndPassword([]byte(userFromDB.Password), []byte(user.Password))
 	if err != nil {
-		return ErrInvalidCredentials
+		return "", errors.New("invalid credentials")
 	}
 
-	return nil
+	token, err := utils.CreateToken(user.Email)
+	if err != nil {
+		log.Println(err)
+		return "", err
+	}
+
+	return token, nil
 }

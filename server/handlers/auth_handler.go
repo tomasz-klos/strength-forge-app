@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"strength-forge-app/internal/models"
 	"strength-forge-app/internal/services"
+	"time"
 )
 
 type AuthHandler struct {
@@ -46,12 +47,20 @@ func (h *AuthHandler) LogIn(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = h.service.LogIn(&user)
+	token, err := h.service.LogIn(&user)
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusUnauthorized)
 		return
 	}
+
+	http.SetCookie(w, &http.Cookie{
+		Name:     "token",
+		Value:    token,
+		Expires:  time.Now().Add(time.Hour * 24),
+		HttpOnly: true,
+		SameSite: http.SameSiteStrictMode,
+	})
 
 	w.WriteHeader(http.StatusOK)
 }
