@@ -1,10 +1,3 @@
-import { useNavigate } from "react-router-dom";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import axios from "axios";
-import { useMutation } from "@tanstack/react-query";
-
 import {
   Form,
   FormItem,
@@ -14,78 +7,20 @@ import {
 } from "@molecules/form";
 import { Button } from "@atoms/button";
 import { Input } from "@atoms/input";
-import { useToast } from "@atoms/use-toast";
 
-interface RegisterForm {
-  name: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
+import useAuthForm from "@hooks/useAuthForm";
+import { registerSchema } from "@schemas/auth_schemas";
+import { registerUser } from "@services/auth_services";
 
-const schema = z
-  .object({
-    name: z
-      .string()
-      .min(3, "Name must be at least 3 characters long")
-      .max(100, "Name must be at most 100 characters long"),
-    email: z.string().email("Invalid email address"),
-    password: z
-      .string()
-      .min(8, "Password must be at least 8 characters long")
-      .max(100, "Password must be at most 100 characters long"),
-    confirmPassword: z
-      .string()
-      .min(8, "Password must be at least 8 characters long")
-      .max(100, "Password must be at most 100 characters long"),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords do not match",
-    path: ["confirmPassword"],
-  });
-
-const createUser = async (data: RegisterForm) => {
-  const response = await axios.post("/api/auth/register", data);
-
-  return response.data;
-};
+import { RegisterFormValues } from "@shared/form_types";
 
 const RegisterForm = () => {
-  const { toast } = useToast();
-  const navigate = useNavigate();
-  const form = useForm({
-    resolver: zodResolver(schema),
-    defaultValues: {
-      name: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-    },
-  });
-
-  const { mutate } = useMutation({
-    mutationFn: createUser,
-    onSuccess: () => {
-      navigate("/");
-
-      toast({
-        title: "Success",
-        description: "You have successfully registered",
-      });
-    },
-    onError: (error: Error & { response: { data: { error: string } } }) => {
-      console.error(error);
-
-      toast({
-        title: "Error",
-        description: error.response.data.error,
-        variant: "destructive",
-      });
-    },
-  });
-
-  const onSubmit = form.handleSubmit((data) => {
-    mutate(data);
+  const { form, onSubmit } = useAuthForm<RegisterFormValues>({
+    schema: registerSchema,
+    mutationFn: registerUser,
+    onSuccessRedirect: "/",
+    successMessage: "You have successfully registered",
+    errorMessage: "Registration failed",
   });
 
   return (
