@@ -2,6 +2,7 @@ import { Outlet, redirect } from "react-router-dom";
 import axios from "axios";
 
 import { Toaster } from "@atoms/toaster";
+import { API_ROUTES } from "@config/enums";
 
 const AppTemplate = () => {
   return (
@@ -18,7 +19,7 @@ export default AppTemplate;
 
 export const authTemplateLoader = async () => {
   try {
-    const res = await axios.get("/api/auth/validate-token");
+    const res = await axios.get(API_ROUTES.VALIDATE_TOKEN);
     if (res.status === 200) {
       return redirect("/");
     }
