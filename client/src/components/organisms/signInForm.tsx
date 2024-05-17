@@ -1,5 +1,6 @@
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
@@ -13,6 +14,7 @@ import {
 } from "@molecules/form";
 import { Button } from "@atoms/button";
 import { Input } from "@atoms/input";
+import { useToast } from "@atoms/use-toast";
 
 interface SignInForm {
   email: string;
@@ -31,13 +33,14 @@ const schema = z.object({
 });
 
 const logInUser = async (data: SignInForm) => {
-  const response = await axios.post("/api/login", data);
+  const response = await axios.post("/api/auth/login", data);
 
-  console.log(response.data);
   return response.data;
 };
 
 const SignInForm = () => {
+  const navigate = useNavigate();
+  const { toast } = useToast();
   const form = useForm({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -48,11 +51,22 @@ const SignInForm = () => {
 
   const { mutate } = useMutation({
     mutationFn: logInUser,
-    onSuccess: (data) => {
-      console.log(data);
+    onSuccess: () => {
+      navigate("/");
+
+      toast({
+        title: "Success",
+        description: "You have successfully signed in",
+      });
     },
     onError: (error) => {
       console.error(error);
+
+      toast({
+        title: "Error",
+        description: "Invalid email or password",
+        variant: "destructive",
+      });
     },
   });
 
