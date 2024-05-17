@@ -24,14 +24,19 @@ func (h *AuthHandler) RegisterUser(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&user)
 	if err != nil {
 		log.Println(err)
-		w.WriteHeader(http.StatusBadRequest)
+		writeJSONResponse(w, http.StatusBadRequest, JSONResponse{Error: MsgInvalidPayload})
 		return
 	}
 
 	token, err := h.service.CreateUser(&user)
 	if err != nil {
+		if err.Error() == "user already exists" {
+			writeJSONResponse(w, http.StatusConflict, JSONResponse{Error: MsgUserAlreadyExists})
+			return
+		}
+
 		log.Println(err)
-		w.WriteHeader(http.StatusInternalServerError)
+		writeJSONResponse(w, http.StatusInternalServerError, JSONResponse{Error: MsgInternalError})
 		return
 	}
 
@@ -43,7 +48,7 @@ func (h *AuthHandler) RegisterUser(w http.ResponseWriter, r *http.Request) {
 		SameSite: http.SameSiteStrictMode,
 	})
 
-	w.WriteHeader(http.StatusCreated)
+	writeJSONResponse(w, http.StatusCreated, JSONResponse{Message: MsgUserCreated})
 }
 
 func (h *AuthHandler) LogIn(w http.ResponseWriter, r *http.Request) {
@@ -51,14 +56,14 @@ func (h *AuthHandler) LogIn(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&user)
 	if err != nil {
 		log.Println(err)
-		w.WriteHeader(http.StatusBadRequest)
+		writeJSONResponse(w, http.StatusBadRequest, JSONResponse{Error: MsgInvalidPayload})
 		return
 	}
 
 	token, err := h.service.LogIn(&user)
 	if err != nil {
 		log.Println(err)
-		w.WriteHeader(http.StatusUnauthorized)
+		writeJSONResponse(w, http.StatusUnauthorized, JSONResponse{Error: MsgUnauthorized})
 		return
 	}
 
@@ -70,23 +75,23 @@ func (h *AuthHandler) LogIn(w http.ResponseWriter, r *http.Request) {
 		SameSite: http.SameSiteStrictMode,
 	})
 
-	w.WriteHeader(http.StatusOK)
+	writeJSONResponse(w, http.StatusOK, JSONResponse{Message: MsgLoginSuccessful})
 }
 
 func (h *AuthHandler) Authenticate(w http.ResponseWriter, r *http.Request) {
 	tokenString := r.Cookies()[0].Value
 	log.Println(tokenString)
 	if tokenString == "" {
-		w.WriteHeader(http.StatusUnauthorized)
+		writeJSONResponse(w, http.StatusUnauthorized, JSONResponse{Error: MsgNoTokenProvided})
 		return
 	}
 
 	err := h.service.Authenticate(tokenString)
 	if err != nil {
 		log.Println(err)
-		w.WriteHeader(http.StatusUnauthorized)
+		writeJSONResponse(w, http.StatusUnauthorized, JSONResponse{Error: MsgUnauthorized})
 		return
 	}
 
-	w.WriteHeader(http.StatusOK)
+	writeJSONResponse(w, http.StatusOK, JSONResponse{Message: "Authenticated"})
 }
