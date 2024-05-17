@@ -9,7 +9,7 @@ import (
 	"gorm.io/gorm"
 )
 
-var db *gorm.DB
+var DB *gorm.DB
 
 func getDatabaseConfig() (map[string]string, error) {
 	keys := []string{"DB_NAME", "DB_USER", "DB_PASSWORD", "DB_HOST"}
@@ -26,21 +26,19 @@ func getDatabaseConfig() (map[string]string, error) {
 	return config, nil
 }
 
-func Init() (*gorm.DB, error) {
+func Init() {
 	var err error
 
 	dbConfig, err := getDatabaseConfig()
 	if err != nil {
-		return nil, err
+		log.Fatalf("error getting database config: %v", err)
 	}
 
 	dbUrl := fmt.Sprintf("postgres://%s:%s@%s/%s?sslmode=disable", dbConfig["DB_USER"], dbConfig["DB_PASSWORD"], dbConfig["DB_HOST"], dbConfig["DB_NAME"])
 
-	db, err = gorm.Open(postgres.Open(dbUrl), &gorm.Config{})
+	DB, err = gorm.Open(postgres.Open(dbUrl), &gorm.Config{})
 
 	if err != nil {
 		log.Fatalf("error connecting to database: %v", err)
 	}
-
-	return db, err
 }
