@@ -19,6 +19,9 @@ export default ({ mode }: any) => {
         "@lib": path.resolve(__dirname, "./src/lib"),
         "@providers": path.resolve(__dirname, "./src/providers"),
         "@hooks": path.resolve(__dirname, "./src/hooks"),
+        "@schemas": path.resolve(__dirname, "./src/schemas"),
+        "@services": path.resolve(__dirname, "./src/services"),
+        "@types": path.resolve(__dirname, "./src/types"),
       },
     },
     server: {

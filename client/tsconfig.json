@@ -32,6 +32,9 @@
       "@lib/*": ["./src/lib/*"],
       "@providers/*": ["./src/providers/*"],
       "@hooks/*": ["./src/hooks/*"],
+      "@schemas/*": ["./src/schemas/*"],
+      "@services/*": ["./src/services/*"],
+      "@types/*": ["./src/types/*"],
     }
   },
   "references": [{ "path": "./tsconfig.node.json" }]
