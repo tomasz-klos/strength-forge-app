@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
-	"strength-forge-app/internal/models"
+	"strength-forge-app/internal/dtos"
 	"strength-forge-app/internal/services"
 	"time"
 )
@@ -20,15 +20,15 @@ func NewAuthHandler(service services.AuthService) *AuthHandler {
 }
 
 func (h *AuthHandler) RegisterUser(w http.ResponseWriter, r *http.Request) {
-	var user models.User
-	err := json.NewDecoder(r.Body).Decode(&user)
+	var registerUser dtos.RegisterUser
+	err := json.NewDecoder(r.Body).Decode(&registerUser)
 	if err != nil {
 		log.Println(err)
 		writeJSONResponse(w, http.StatusBadRequest, JSONResponse{Error: MsgInvalidPayload})
 		return
 	}
 
-	token, err := h.service.CreateUser(&user)
+	token, err := h.service.CreateUser(&registerUser)
 	if err != nil {
 		if err.Error() == "user already exists" {
 			writeJSONResponse(w, http.StatusConflict, JSONResponse{Error: MsgUserAlreadyExists})
@@ -52,15 +52,15 @@ func (h *AuthHandler) RegisterUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *AuthHandler) LogIn(w http.ResponseWriter, r *http.Request) {
-	var user models.User
-	err := json.NewDecoder(r.Body).Decode(&user)
+	var loginUser dtos.LoginUser
+	err := json.NewDecoder(r.Body).Decode(&loginUser)
 	if err != nil {
 		log.Println(err)
 		writeJSONResponse(w, http.StatusBadRequest, JSONResponse{Error: MsgInvalidPayload})
 		return
 	}
 
-	token, err := h.service.LogIn(&user)
+	token, err := h.service.LogIn(&loginUser)
 	if err != nil {
 		log.Println(err)
 		writeJSONResponse(w, http.StatusUnauthorized, JSONResponse{Error: MsgUnauthorized})
