@@ -34,7 +34,7 @@
       "@hooks/*": ["./src/hooks/*"],
       "@schemas/*": ["./src/schemas/*"],
       "@services/*": ["./src/services/*"],
-      "@types/*": ["./src/types/*"],
+      "@shared/*": ["src/shared/*"],
     }
   },
   "references": [{ "path": "./tsconfig.node.json" }]
