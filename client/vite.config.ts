@@ -9,6 +9,7 @@ export default ({ mode }: any) => {
     plugins: [react()],
     resolve: {
       alias: {
+        "@assets": path.resolve(__dirname, "./src/assets"),
         "@atoms": path.resolve(__dirname, "./src/components/atoms"),
         "@molecules": path.resolve(__dirname, "./src/components/molecules"),
         "@organisms": path.resolve(__dirname, "./src/components/organisms"),
@@ -18,6 +19,9 @@ export default ({ mode }: any) => {
         "@lib": path.resolve(__dirname, "./src/lib"),
         "@providers": path.resolve(__dirname, "./src/providers"),
         "@hooks": path.resolve(__dirname, "./src/hooks"),
+        "@schemas": path.resolve(__dirname, "./src/schemas"),
+        "@services": path.resolve(__dirname, "./src/services"),
+        "@shared": path.resolve(__dirname, "./src/shared"),
       },
     },
     server: {

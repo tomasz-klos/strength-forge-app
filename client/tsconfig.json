@@ -22,6 +22,7 @@
 
     "baseUrl": ".",
     "paths": {
+      "@assets/*": ["./src/assets/*"],
       "@atoms/*": ["./src/components/atoms/*"],
       "@molecules/*": ["./src/components/molecules/*"],
       "@organisms/*": ["./src/components/organisms/*"],
@@ -31,6 +32,9 @@
       "@lib/*": ["./src/lib/*"],
       "@providers/*": ["./src/providers/*"],
       "@hooks/*": ["./src/hooks/*"],
+      "@schemas/*": ["./src/schemas/*"],
+      "@services/*": ["./src/services/*"],
+      "@shared/*": ["src/shared/*"],
     }
   },
   "references": [{ "path": "./tsconfig.node.json" }]

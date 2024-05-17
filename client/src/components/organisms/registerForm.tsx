@@ -1,9 +1,3 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import axios from "axios";
-import { useMutation } from "@tanstack/react-query";
-
 import {
   Form,
   FormItem,
@@ -14,60 +8,19 @@ import {
 import { Button } from "@atoms/button";
 import { Input } from "@atoms/input";
 
-interface RegisterForm {
-  name: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
+import useAuthForm from "@hooks/useAuthForm";
+import { registerSchema } from "@schemas/auth_schemas";
+import { registerUser } from "@services/auth_services";
 
-const schema = z.object({
-  name: z
-    .string()
-    .min(3, "Name must be at least 3 characters long")
-    .max(100, "Name must be at most 100 characters long"),
-  email: z.string().email("Invalid email address"),
-  password: z
-    .string()
-    .min(8, "Password must be at least 8 characters long")
-    .max(100, "Password must be at most 100 characters long"),
-  confirmPassword: z
-    .string()
-    .min(8, "Password must be at least 8 characters long")
-    .max(100, "Password must be at most 100 characters long"),
-});
+import { RegisterFormValues } from "@shared/form_types";
 
-const createUser = async (data: RegisterForm) => {
-  const response = await axios.post("/api/register", data);
-
-  console.log(response.data);
-  return response.data;
-};
-
-const RegisterForm = () => {
-  const form = useForm({
-    resolver: zodResolver(schema),
-    defaultValues: {
-      name: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-    },
-  });
-
-  const { mutate } = useMutation({
-    mutationFn: createUser,
-    onSuccess: (data) => {
-      console.log(data);
-    },
-    onError: (error) => {
-      console.error(error);
-    },
-  });
-
-  const onSubmit = form.handleSubmit((data) => {
-    console.log(data);
-    mutate(data);
+const RegisterForm: React.FC = () => {
+  const { form, onSubmit } = useAuthForm<RegisterFormValues>({
+    schema: registerSchema,
+    mutationFn: registerUser,
+    onSuccessRedirect: "/",
+    successMessage: "You have successfully registered",
+    errorMessage: "Registration failed",
   });
 
   return (
