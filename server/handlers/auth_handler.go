@@ -78,6 +78,16 @@ func (h *AuthHandler) LogIn(w http.ResponseWriter, r *http.Request) {
 	writeJSONResponse(w, http.StatusOK, JSONResponse{Message: MsgLoginSuccessful})
 }
 
+func (h *AuthHandler) LogOut(w http.ResponseWriter, r *http.Request) {
+	http.SetCookie(w, &http.Cookie{
+		Name:    "token",
+		Value:   "",
+		Expires: time.Now().Add(-time.Hour),
+	})
+
+	writeJSONResponse(w, http.StatusOK, JSONResponse{Message: "Logged out"})
+}
+
 func (h *AuthHandler) Authenticate(w http.ResponseWriter, r *http.Request) {
 	tokenString := r.Cookies()[0].Value
 	log.Println(tokenString)
