@@ -22,3 +22,13 @@ export const registerUser = async (data: RegisterFormValues) => {
     throw error;
   }
 };
+
+export const validateToken = async () => {
+  try {
+    const response: AxiosResponse = await axios.get(API_ROUTES.VALIDATE_TOKEN);
+    return response.data;
+  } catch (error) {
+    console.error("Error validating token:", error);
+    throw error;
+  }
+};
