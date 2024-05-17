@@ -21,6 +21,11 @@ func NewAuthService(repo repositories.UserRepository) *AuthService {
 }
 
 func (s *AuthService) CreateUser(user *models.User) (string, error) {
+	_, err := s.repo.GetUserByEmail(user.Email)
+	if err == nil {
+		return "", errors.New("user already exists")
+	}
+
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 	if err != nil {
 		log.Println(err)
