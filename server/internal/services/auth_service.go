@@ -43,3 +43,7 @@ func (s *AuthService) LogIn(user *models.User) (string, error) {
 
 	return token, nil
 }
+
+func (s *AuthService) Authenticate(tokenString string) error {
+	return utils.VerifyToken(tokenString)
+}

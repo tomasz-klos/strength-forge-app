@@ -64,3 +64,21 @@ func (h *AuthHandler) LogIn(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusOK)
 }
+
+func (h *AuthHandler) Authenticate(w http.ResponseWriter, r *http.Request) {
+	tokenString := r.Cookies()[0].Value
+	log.Println(tokenString)
+	if tokenString == "" {
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+
+	err := h.service.Authenticate(tokenString)
+	if err != nil {
+		log.Println(err)
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+}
