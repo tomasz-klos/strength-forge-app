@@ -13,7 +13,7 @@ import { buttonVariants } from "@atoms/button";
 
 const Register = () => {
   return (
-    <Card>
+    <Card className="max-w-sm w-full">
       <CardHeader>
         <CardTitle className="text-lg">Welcome to App</CardTitle>
         <CardDescription>Sign in to get started</CardDescription>
