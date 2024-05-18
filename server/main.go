@@ -24,10 +24,10 @@ func main() {
 	authService := services.NewAuthService(userRepo)
 	userHandler := handlers.NewAuthHandler(*authService)
 
-	mux.HandleFunc("/api/auth/validate-token", userHandler.Authenticate)
+	mux.HandleFunc("/api/auth/validate-token", userHandler.ValidateToken)
 	mux.HandleFunc("/api/auth/register", userHandler.RegisterUser)
-	mux.HandleFunc("/api/auth/login", userHandler.LogIn)
-	mux.HandleFunc("/api/auth/logout", userHandler.LogOut)
+	mux.HandleFunc("/api/auth/login", userHandler.SignIn)
+	mux.HandleFunc("/api/auth/logout", userHandler.SignOut)
 
 	log.Println("Server is running on port 8080")
 	log.Fatal(http.ListenAndServe(":8080", corsHandler))
