@@ -22,12 +22,12 @@ func main() {
 	corsHandler := cors.Default().Handler(mux)
 	userRepo := repositories.NewPostgresUserRepository(db.DB)
 	authService := services.NewAuthService(userRepo)
-	userHandler := handlers.NewAuthHandler(*authService)
+	authHandler := handlers.NewAuthHandler(*authService)
 
-	mux.HandleFunc("/api/auth/validate-token", userHandler.ValidateToken)
-	mux.HandleFunc("/api/auth/register", userHandler.RegisterUser)
-	mux.HandleFunc("/api/auth/signin", userHandler.SignIn)
-	mux.HandleFunc("/api/auth/signout", userHandler.SignOut)
+	mux.HandleFunc("/api/auth/validate-token", authHandler.ValidateToken)
+	mux.HandleFunc("/api/auth/register", authHandler.RegisterUser)
+	mux.HandleFunc("/api/auth/signin", authHandler.SignIn)
+	mux.HandleFunc("/api/auth/signout", authHandler.SignOut)
 
 	log.Println("Server is running on port 8080")
 	log.Fatal(http.ListenAndServe(":8080", corsHandler))
