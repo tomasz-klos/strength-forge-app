@@ -1,6 +1,6 @@
 export enum API_ROUTES {
-  LOGIN = "/api/auth/login",
+  LOGIN = "/api/auth/signin",
   REGISTER = "/api/auth/register",
   VALIDATE_TOKEN = "/api/auth/validate-token",
-  LOGOUT = "/api/auth/logout",
+  LOGOUT = "/api/auth/signout",
 }

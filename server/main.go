@@ -26,8 +26,8 @@ func main() {
 
 	mux.HandleFunc("/api/auth/validate-token", userHandler.ValidateToken)
 	mux.HandleFunc("/api/auth/register", userHandler.RegisterUser)
-	mux.HandleFunc("/api/auth/login", userHandler.SignIn)
-	mux.HandleFunc("/api/auth/logout", userHandler.SignOut)
+	mux.HandleFunc("/api/auth/signin", userHandler.SignIn)
+	mux.HandleFunc("/api/auth/signout", userHandler.SignOut)
 
 	log.Println("Server is running on port 8080")
 	log.Fatal(http.ListenAndServe(":8080", corsHandler))
