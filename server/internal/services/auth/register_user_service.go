@@ -17,7 +17,6 @@ func (s *authService) Register(registerUser *dtos.RegisterUser) (string, error) 
 
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(registerUser.Password), bcrypt.DefaultCost)
 	if err != nil {
-		log.Println(err)
 		return "", err
 	}
 

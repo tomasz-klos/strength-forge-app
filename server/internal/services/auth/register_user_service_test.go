@@ -58,6 +58,16 @@ func TestAuthService_CreateUser(t *testing.T) {
 			err:      errors.New("create error"),
 		},
 		{
+			name: "Error creating token",
+			mockFunc: func() {
+				userRepoMock.EXPECT().GetUserByEmail(registerUser.Email).Return(nil, errors.New("not found")).Times(1)
+				userRepoMock.EXPECT().CreateUser(gomock.Any()).Return(nil).Times(1)
+				tokenGeneratorMock.EXPECT().CreateToken(registerUser.Email).Return("", errors.New("token error")).Times(1)
+			},
+			expected: "",
+			err:      errors.New("token error"),
+		},
+		{
 			name: "Success",
 			mockFunc: func() {
 				userRepoMock.EXPECT().GetUserByEmail(registerUser.Email).Return(nil, errors.New("not found")).Times(1)
