@@ -30,7 +30,6 @@ func (h *AuthHandler) SignIn(w http.ResponseWriter, r *http.Request) {
 		Expires:  time.Now().Add(time.Hour * 24),
 		HttpOnly: true,
 		SameSite: http.SameSiteStrictMode,
-		Path:     "/",
 	})
 
 	writeJSONResponse(w, http.StatusOK, JSONResponse{Message: MsgLoginSuccessful})
