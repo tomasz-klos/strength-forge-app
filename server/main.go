@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"strength-forge-app/db"
-	"strength-forge-app/handlers"
+	auth_handler "strength-forge-app/handlers/auth"
 	"strength-forge-app/internal/repositories"
 	auth_service "strength-forge-app/internal/services/auth"
 	"strength-forge-app/utils"
@@ -23,7 +23,7 @@ func main() {
 	corsHandler := cors.Default().Handler(mux)
 	userRepo := repositories.NewPostgresUserRepository(db.DB)
 	authService := auth_service.NewAuthService(userRepo, utils.NewTokenGenerator())
-	authHandler := handlers.NewAuthHandler(authService)
+	authHandler := auth_handler.NewAuthHandler(authService)
 
 	mux.HandleFunc("/api/auth/validate-token", authHandler.ValidateToken)
 	mux.HandleFunc("/api/auth/register", authHandler.RegisterUser)
