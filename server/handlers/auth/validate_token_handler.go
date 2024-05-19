@@ -13,12 +13,17 @@ func (h *AuthHandler) ValidateToken(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err := h.service.ValidateToken(tokenString)
+	user, err := h.service.ValidateToken(tokenString)
 	if err != nil {
 		log.Println(err)
 		writeJSONResponse(w, http.StatusUnauthorized, JSONResponse{Error: MsgUnauthorized})
 		return
 	}
 
-	writeJSONResponse(w, http.StatusOK, JSONResponse{Message: "Authenticated"})
+	if user == nil {
+		writeJSONResponse(w, http.StatusUnauthorized, JSONResponse{Error: MsgUnauthorized})
+		return
+	}
+
+	writeJSONResponse(w, http.StatusOK, JSONResponse{Data: user})
 }
