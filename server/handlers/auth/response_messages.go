@@ -12,14 +12,14 @@ type JSONResponse struct {
 }
 
 const (
-	MsgLoginSuccessful   = "Login successful"
-	MsgUserCreated       = "User created successfully"
-	MsgInvalidPayload    = "Invalid request payload"
-	MsgUserAlreadyExists = "User already exists"
-	MsgInternalError     = "Internal server error"
-	MsgUnauthorized      = "Unauthorized"
-	MsgMethodNotAllowed  = "Method not allowed"
-	MsgNoTokenProvided   = "No token provided"
+	MsgLoginSuccessful   = "login successful"
+	MsgUserCreated       = "user created successfully"
+	MsgInvalidPayload    = "invalid request payload"
+	MsgUserAlreadyExists = "user already exists"
+	MsgInternalError     = "internal server error"
+	MsgUnauthorized      = "unauthorized"
+	MsgMethodNotAllowed  = "method not allowed"
+	MsgNoTokenProvided   = "no token provided"
 )
 
 func writeJSONResponse(w http.ResponseWriter, status int, response JSONResponse) {
