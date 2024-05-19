@@ -24,7 +24,7 @@ func (s *authService) LogIn(loginUser *dtos.LoginUser) (string, error) {
 
 	token, err := s.tokenGenerator.CreateToken(loginUser.Email)
 	if err != nil {
-		return "", errors.New("error creating token")
+		return "", err
 	}
 
 	return token, nil
