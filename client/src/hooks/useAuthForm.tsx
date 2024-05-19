@@ -8,6 +8,7 @@ import { useToast } from "@atoms/use-toast";
 
 interface UseAuthFormOptions<T> {
   schema: ZodSchema<T>;
+  defaultValues: { [key in keyof T]: any };
   mutationFn: (data: T) => Promise<any>;
   onSuccessRedirect: string;
   successMessage: string;
@@ -16,6 +17,7 @@ interface UseAuthFormOptions<T> {
 
 const useAuthForm = <T extends Record<string, any>>({
   schema,
+  defaultValues,
   mutationFn,
   onSuccessRedirect,
   successMessage,
@@ -26,7 +28,7 @@ const useAuthForm = <T extends Record<string, any>>({
 
   const form = useForm<T>({
     resolver: zodResolver(schema),
-    defaultValues: {} as DefaultValues<T>,
+    defaultValues: defaultValues as DefaultValues<T>,
   });
 
   const mutation = useMutation({
