@@ -1,4 +1,4 @@
-package services
+package services_auth
 
 import (
 	"strength-forge-app/internal/dtos"
@@ -7,9 +7,9 @@ import (
 )
 
 type AuthService interface {
-	CreateUser(registerUser *dtos.RegisterUser) (string, error)
+	Register(registerUser *dtos.RegisterUser) (string, error)
 	LogIn(loginUser *dtos.LoginUser) (string, error)
-	Authenticate(tokenString string) error
+	ValidateToken(token string) error
 }
 
 type authService struct {

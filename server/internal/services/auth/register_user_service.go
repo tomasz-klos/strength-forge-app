@@ -1,4 +1,4 @@
-package services
+package services_auth
 
 import (
 	"errors"
@@ -9,7 +9,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func (s *authService) CreateUser(registerUser *dtos.RegisterUser) (string, error) {
+func (s *authService) Register(registerUser *dtos.RegisterUser) (string, error) {
 	_, err := s.repo.GetUserByEmail(registerUser.Email)
 	if err == nil {
 		return "", errors.New("user already exists")
