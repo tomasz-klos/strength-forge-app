@@ -49,11 +49,12 @@ func (mr *MockTokenGeneratorMockRecorder) CreateToken(email interface{}) *gomock
 }
 
 // VerifyToken mocks base method.
-func (m *MockTokenGenerator) VerifyToken(tokenString string) error {
+func (m *MockTokenGenerator) VerifyToken(tokenString string) (string, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "VerifyToken", tokenString)
-	ret0, _ := ret[0].(error)
-	return ret0
+	ret0, _ := ret[0].(string)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
 }
 
 // VerifyToken indicates an expected call of VerifyToken.

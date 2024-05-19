@@ -9,7 +9,7 @@ import (
 
 type TokenGenerator interface {
 	CreateToken(email string) (string, error)
-	VerifyToken(tokenString string) error
+	VerifyToken(tokenString string) (string, error)
 }
 
 type tokenGenerator struct{}
@@ -38,10 +38,10 @@ func (g *tokenGenerator) CreateToken(email string) (string, error) {
 	return tokenString, nil
 }
 
-func (g *tokenGenerator) VerifyToken(tokenString string) error {
+func (g *tokenGenerator) VerifyToken(tokenString string) (string, error) {
 	secretKey, err := GetEnvVariable("SECRET_KEY")
 	if err != nil {
-		return err
+		return "", err
 	}
 
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
@@ -49,12 +49,12 @@ func (g *tokenGenerator) VerifyToken(tokenString string) error {
 	})
 
 	if err != nil {
-		return err
+		return "", err
 	}
 
 	if !token.Valid {
-		return errors.New("invalid token")
+		return "", errors.New("invalid token")
 	}
 
-	return nil
+	return token.Claims.(jwt.MapClaims)["email"].(string), nil
 }
