@@ -1,4 +1,4 @@
-package handlers
+package handlers_auth
 
 import (
 	"encoding/json"
@@ -17,7 +17,7 @@ func (h *AuthHandler) RegisterUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	token, err := h.service.CreateUser(&registerUser)
+	token, err := h.service.Register(&registerUser)
 	if err != nil {
 		if err.Error() == "user already exists" {
 			writeJSONResponse(w, http.StatusConflict, JSONResponse{Error: MsgUserAlreadyExists})

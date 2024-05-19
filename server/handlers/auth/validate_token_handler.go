@@ -1,4 +1,4 @@
-package handlers
+package handlers_auth
 
 import (
 	"log"
@@ -13,7 +13,7 @@ func (h *AuthHandler) ValidateToken(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err := h.service.Authenticate(tokenString)
+	err := h.service.ValidateToken(tokenString)
 	if err != nil {
 		log.Println(err)
 		writeJSONResponse(w, http.StatusUnauthorized, JSONResponse{Error: MsgUnauthorized})
