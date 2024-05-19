@@ -17,6 +17,11 @@ import { RegisterFormValues } from "@shared/form_types";
 const RegisterForm: React.FC = () => {
   const { form, onSubmit } = useAuthForm<RegisterFormValues>({
     schema: registerSchema,
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+    },
     mutationFn: registerUser,
     onSuccessRedirect: "/",
     successMessage: "You have successfully registered",
