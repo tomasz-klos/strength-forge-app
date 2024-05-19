@@ -17,6 +17,10 @@ import { SignInFormValues } from "@shared/form_types";
 const SignInForm: React.FC = () => {
   const { form, onSubmit } = useAuthForm<SignInFormValues>({
     schema: signInschema,
+    defaultValues: {
+      email: "",
+      password: "",
+    },
     mutationFn: signInUser,
     onSuccessRedirect: "/",
     successMessage: "You have successfully signed in",
