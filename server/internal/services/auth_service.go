@@ -11,17 +11,25 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-type AuthService struct {
-	repo repositories.UserRepository
+type AuthService interface {
+	CreateUser(registerUser *dtos.RegisterUser) (string, error)
+	LogIn(loginUser *dtos.LoginUser) (string, error)
+	Authenticate(tokenString string) error
 }
 
-func NewAuthService(repo repositories.UserRepository) *AuthService {
-	return &AuthService{
-		repo: repo,
+type authService struct {
+	repo           repositories.UserRepository
+	tokenGenerator utils.TokenGenerator
+}
+
+func NewAuthService(repo repositories.UserRepository, tokenGenerator utils.TokenGenerator) AuthService {
+	return &authService{
+		repo:           repo,
+		tokenGenerator: tokenGenerator,
 	}
 }
 
-func (s *AuthService) CreateUser(registerUser *dtos.RegisterUser) (string, error) {
+func (s *authService) CreateUser(registerUser *dtos.RegisterUser) (string, error) {
 	_, err := s.repo.GetUserByEmail(registerUser.Email)
 	if err == nil {
 		return "", errors.New("user already exists")
@@ -44,7 +52,7 @@ func (s *AuthService) CreateUser(registerUser *dtos.RegisterUser) (string, error
 		return "", err
 	}
 
-	token, err := utils.CreateToken(user.Email)
+	token, err := s.tokenGenerator.CreateToken(user.Email)
 	if err != nil {
 		log.Println(err)
 		return "", err
@@ -53,8 +61,9 @@ func (s *AuthService) CreateUser(registerUser *dtos.RegisterUser) (string, error
 	return token, nil
 }
 
-func (s *AuthService) LogIn(loginUser *dtos.LoginUser) (string, error) {
+func (s *authService) LogIn(loginUser *dtos.LoginUser) (string, error) {
 	user, err := s.repo.GetUserByEmail(loginUser.Email)
+	log.Println(user, loginUser.Email)
 	if err != nil {
 		return "", err
 	}
@@ -64,7 +73,7 @@ func (s *AuthService) LogIn(loginUser *dtos.LoginUser) (string, error) {
 		return "", errors.New("invalid credentials")
 	}
 
-	token, err := utils.CreateToken(loginUser.Email)
+	token, err := s.tokenGenerator.CreateToken(loginUser.Email)
 	if err != nil {
 		log.Println(err)
 		return "", err
@@ -73,6 +82,6 @@ func (s *AuthService) LogIn(loginUser *dtos.LoginUser) (string, error) {
 	return token, nil
 }
 
-func (s *AuthService) Authenticate(tokenString string) error {
-	return utils.VerifyToken(tokenString)
+func (s *authService) Authenticate(tokenString string) error {
+	return s.tokenGenerator.VerifyToken(tokenString)
 }

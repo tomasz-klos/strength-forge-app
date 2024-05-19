@@ -7,7 +7,18 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
-func CreateToken(email string) (string, error) {
+type TokenGenerator interface {
+	CreateToken(email string) (string, error)
+	VerifyToken(tokenString string) error
+}
+
+type tokenGenerator struct{}
+
+func NewTokenGenerator() TokenGenerator {
+	return &tokenGenerator{}
+}
+
+func (g *tokenGenerator) CreateToken(email string) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"email": email,
 		"exp":   time.Now().Add(time.Hour * 24).Unix(),
@@ -27,7 +38,7 @@ func CreateToken(email string) (string, error) {
 	return tokenString, nil
 }
 
-func VerifyToken(tokenString string) error {
+func (g *tokenGenerator) VerifyToken(tokenString string) error {
 	secretKey, err := GetEnvVariable("SECRET_KEY")
 	if err != nil {
 		return err
