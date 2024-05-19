@@ -8,6 +8,7 @@ import (
 	"strength-forge-app/handlers"
 	"strength-forge-app/internal/repositories"
 	"strength-forge-app/internal/services"
+	"strength-forge-app/utils"
 
 	"github.com/rs/cors"
 )
@@ -21,8 +22,8 @@ func main() {
 	mux := http.NewServeMux()
 	corsHandler := cors.Default().Handler(mux)
 	userRepo := repositories.NewPostgresUserRepository(db.DB)
-	authService := services.NewAuthService(userRepo)
-	authHandler := handlers.NewAuthHandler(*authService)
+	authService := services.NewAuthService(userRepo, utils.NewTokenGenerator())
+	authHandler := handlers.NewAuthHandler(authService)
 
 	mux.HandleFunc("/api/auth/validate-token", authHandler.ValidateToken)
 	mux.HandleFunc("/api/auth/register", authHandler.RegisterUser)
