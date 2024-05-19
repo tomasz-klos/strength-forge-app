@@ -14,7 +14,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func TestAuthService_Login(t *testing.T) {
+func TestAuthService_LogIn(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
@@ -33,17 +33,28 @@ func TestAuthService_Login(t *testing.T) {
 		Password: string(hashedPassword),
 	}
 
-	expectedUserWrongPassword := &models.User{
-		Email:    loginUser.Email,
-		Password: "wrong_password",
-	}
-
 	testCases := []struct {
 		name     string
 		mockFunc func()
 		expected string
 		err      error
 	}{
+		{
+			name: "Error getting user by email",
+			mockFunc: func() {
+				userRepoMock.EXPECT().GetUserByEmail(loginUser.Email).Return(nil, errors.New("error getting user by email")).Times(1)
+			},
+			expected: "",
+			err:      errors.New("error getting user by email"),
+		},
+		{
+			name: "User is nil",
+			mockFunc: func() {
+				userRepoMock.EXPECT().GetUserByEmail(loginUser.Email).Return(nil, nil).Times(1)
+			},
+			expected: "",
+			err:      errors.New("user not found"),
+		},
 		{
 			name: "User not found",
 			mockFunc: func() {
@@ -55,7 +66,11 @@ func TestAuthService_Login(t *testing.T) {
 		{
 			name: "Invalid credentials",
 			mockFunc: func() {
-				userRepoMock.EXPECT().GetUserByEmail(loginUser.Email).Return(expectedUserWrongPassword, nil).Times(1)
+				expectedUser := &models.User{
+					Email:    loginUser.Email,
+					Password: "invalid_password",
+				}
+				userRepoMock.EXPECT().GetUserByEmail(loginUser.Email).Return(expectedUser, nil).Times(1)
 
 			},
 			expected: "",
@@ -65,10 +80,10 @@ func TestAuthService_Login(t *testing.T) {
 			name: "Error creating token",
 			mockFunc: func() {
 				userRepoMock.EXPECT().GetUserByEmail(loginUser.Email).Return(expectedUser, nil).Times(1)
-				tokenGeneratorMock.EXPECT().CreateToken(loginUser.Email).Return("", errors.New("create error")).Times(1)
+				tokenGeneratorMock.EXPECT().CreateToken(loginUser.Email).Return("", errors.New("error creating token")).Times(1)
 			},
 			expected: "",
-			err:      errors.New("create error"),
+			err:      errors.New("error creating token"),
 		},
 		{
 			name: "Success",

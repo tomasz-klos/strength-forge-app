@@ -2,7 +2,6 @@ package services_auth
 
 import (
 	"errors"
-	"log"
 	"strength-forge-app/internal/dtos"
 
 	"golang.org/x/crypto/bcrypt"
@@ -10,9 +9,12 @@ import (
 
 func (s *authService) LogIn(loginUser *dtos.LoginUser) (string, error) {
 	user, err := s.repo.GetUserByEmail(loginUser.Email)
-	log.Println(user, loginUser.Email)
 	if err != nil {
 		return "", err
+	}
+
+	if user == nil {
+		return "", errors.New("user not found")
 	}
 
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(loginUser.Password))
@@ -22,8 +24,7 @@ func (s *authService) LogIn(loginUser *dtos.LoginUser) (string, error) {
 
 	token, err := s.tokenGenerator.CreateToken(loginUser.Email)
 	if err != nil {
-		log.Println(err)
-		return "", err
+		return "", errors.New("error creating token")
 	}
 
 	return token, nil
