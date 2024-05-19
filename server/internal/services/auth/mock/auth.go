@@ -65,11 +65,12 @@ func (mr *MockAuthServiceMockRecorder) Register(registerUser interface{}) *gomoc
 }
 
 // ValidateToken mocks base method.
-func (m *MockAuthService) ValidateToken(token string) error {
+func (m *MockAuthService) ValidateToken(token string) (*dtos.ResponseUser, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ValidateToken", token)
-	ret0, _ := ret[0].(error)
-	return ret0
+	ret0, _ := ret[0].(*dtos.ResponseUser)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
 }
 
 // ValidateToken indicates an expected call of ValidateToken.
