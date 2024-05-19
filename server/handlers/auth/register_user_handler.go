@@ -41,7 +41,6 @@ func (h *AuthHandler) RegisterUser(w http.ResponseWriter, r *http.Request) {
 		Expires:  time.Now().Add(time.Hour * 24),
 		HttpOnly: true,
 		SameSite: http.SameSiteStrictMode,
-		Path:     "/",
 	})
 
 	writeJSONResponse(w, http.StatusCreated, JSONResponse{Message: MsgUserCreated})
