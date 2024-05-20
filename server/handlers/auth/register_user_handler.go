@@ -1,7 +1,9 @@
 package handlers_auth
 
 import (
+	"bytes"
 	"encoding/json"
+	"io"
 	"log"
 	"net/http"
 	"strength-forge-app/internal/dtos"
@@ -16,21 +18,35 @@ func (h *AuthHandler) RegisterUser(w http.ResponseWriter, r *http.Request) {
 
 	var registerUser dtos.RegisterUser
 
-	err := json.NewDecoder(r.Body).Decode(&registerUser)
+	bodyBytes, err := io.ReadAll(r.Body)
 	if err != nil {
-		log.Println(err)
+		log.Println("read body error: " + err.Error())
+		writeJSONResponse(w, http.StatusBadRequest, JSONResponse{Error: MsgInvalidPayload})
+		return
+	}
+
+	r.Body = io.NopCloser(bytes.NewBuffer(bodyBytes))
+
+	err = json.NewDecoder(r.Body).Decode(&registerUser)
+	if err != nil {
+		log.Println("decode error: " + err.Error())
 		writeJSONResponse(w, http.StatusBadRequest, JSONResponse{Error: MsgInvalidPayload})
 		return
 	}
 
 	token, err := h.service.Register(&registerUser)
-	if err.Error() == "user already exists" {
-		writeJSONResponse(w, http.StatusConflict, JSONResponse{Error: MsgUserAlreadyExists})
+
+	if err != nil {
+		if err.Error() == "user already exists" {
+			writeJSONResponse(w, http.StatusConflict, JSONResponse{Error: MsgUserAlreadyExists})
+			return
+		}
+		log.Println(`register error: ` + err.Error())
+		writeJSONResponse(w, http.StatusInternalServerError, JSONResponse{Error: MsgInternalError})
 		return
 	}
 
-	if err != nil {
-		log.Println(err)
+	if token == "" {
 		writeJSONResponse(w, http.StatusInternalServerError, JSONResponse{Error: MsgInternalError})
 		return
 	}
