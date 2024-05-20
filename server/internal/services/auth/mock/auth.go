@@ -34,21 +34,6 @@ func (m *MockAuthService) EXPECT() *MockAuthServiceMockRecorder {
 	return m.recorder
 }
 
-// LogIn mocks base method.
-func (m *MockAuthService) LogIn(loginUser *dtos.LoginUser) (string, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "LogIn", loginUser)
-	ret0, _ := ret[0].(string)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// LogIn indicates an expected call of LogIn.
-func (mr *MockAuthServiceMockRecorder) LogIn(loginUser interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "LogIn", reflect.TypeOf((*MockAuthService)(nil).LogIn), loginUser)
-}
-
 // Register mocks base method.
 func (m *MockAuthService) Register(registerUser *dtos.RegisterUser) (string, error) {
 	m.ctrl.T.Helper()
@@ -62,6 +47,21 @@ func (m *MockAuthService) Register(registerUser *dtos.RegisterUser) (string, err
 func (mr *MockAuthServiceMockRecorder) Register(registerUser interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Register", reflect.TypeOf((*MockAuthService)(nil).Register), registerUser)
+}
+
+// SignIn mocks base method.
+func (m *MockAuthService) SignIn(loginUser *dtos.LoginUser) (string, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "SignIn", loginUser)
+	ret0, _ := ret[0].(string)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// SignIn indicates an expected call of SignIn.
+func (mr *MockAuthServiceMockRecorder) SignIn(loginUser interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SignIn", reflect.TypeOf((*MockAuthService)(nil).SignIn), loginUser)
 }
 
 // ValidateToken mocks base method.
