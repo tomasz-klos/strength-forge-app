@@ -1,26 +1,44 @@
 package handlers_auth
 
 import (
+	"bytes"
 	"encoding/json"
-	"log"
+	"io"
 	"net/http"
 	"strength-forge-app/internal/dtos"
 	"time"
 )
 
 func (h *AuthHandler) SignIn(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		writeJSONResponse(w, http.StatusMethodNotAllowed, JSONResponse{Error: MsgMethodNotAllowed})
+		return
+	}
+
 	var loginUser dtos.LoginUser
-	err := json.NewDecoder(r.Body).Decode(&loginUser)
+
+	bodyBytes, err := io.ReadAll(r.Body)
 	if err != nil {
-		log.Println(err)
 		writeJSONResponse(w, http.StatusBadRequest, JSONResponse{Error: MsgInvalidPayload})
 		return
 	}
 
-	token, err := h.service.LogIn(&loginUser)
+	r.Body = io.NopCloser(bytes.NewBuffer(bodyBytes))
+
+	err = json.NewDecoder(r.Body).Decode(&loginUser)
 	if err != nil {
-		log.Println(err)
-		writeJSONResponse(w, http.StatusUnauthorized, JSONResponse{Error: MsgInvalidPayload})
+		writeJSONResponse(w, http.StatusBadRequest, JSONResponse{Error: MsgInvalidPayload})
+		return
+	}
+
+	token, err := h.service.SignIn(&loginUser)
+	if err != nil {
+		writeJSONResponse(w, http.StatusUnauthorized, JSONResponse{Error: MsgUnauthorized})
+		return
+	}
+
+	if token == "" {
+		writeJSONResponse(w, http.StatusInternalServerError, JSONResponse{Error: MsgInternalError})
 		return
 	}
 
