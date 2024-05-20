@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"io"
-	"log"
 	"net/http"
 	"strength-forge-app/internal/dtos"
 	"time"
@@ -20,7 +19,7 @@ func (h *AuthHandler) RegisterUser(w http.ResponseWriter, r *http.Request) {
 
 	bodyBytes, err := io.ReadAll(r.Body)
 	if err != nil {
-		log.Println("read body error: " + err.Error())
+
 		writeJSONResponse(w, http.StatusBadRequest, JSONResponse{Error: MsgInvalidPayload})
 		return
 	}
@@ -29,7 +28,7 @@ func (h *AuthHandler) RegisterUser(w http.ResponseWriter, r *http.Request) {
 
 	err = json.NewDecoder(r.Body).Decode(&registerUser)
 	if err != nil {
-		log.Println("decode error: " + err.Error())
+
 		writeJSONResponse(w, http.StatusBadRequest, JSONResponse{Error: MsgInvalidPayload})
 		return
 	}
@@ -41,7 +40,7 @@ func (h *AuthHandler) RegisterUser(w http.ResponseWriter, r *http.Request) {
 			writeJSONResponse(w, http.StatusConflict, JSONResponse{Error: MsgUserAlreadyExists})
 			return
 		}
-		log.Println(`register error: ` + err.Error())
+
 		writeJSONResponse(w, http.StatusInternalServerError, JSONResponse{Error: MsgInternalError})
 		return
 	}
