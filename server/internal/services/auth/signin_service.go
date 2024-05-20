@@ -2,7 +2,7 @@ package services_auth
 
 import (
 	"errors"
-	"strength-forge-app/internal/dtos"
+	"strength-forge-app/internal/domain/dtos"
 
 	"golang.org/x/crypto/bcrypt"
 )

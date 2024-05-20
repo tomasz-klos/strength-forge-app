@@ -3,7 +3,7 @@ package services_auth
 import (
 	"errors"
 	"log"
-	"strength-forge-app/internal/dtos"
+	"strength-forge-app/internal/domain/dtos"
 )
 
 func (s *authService) ValidateToken(tokenString string) (*dtos.ResponseUser, error) {

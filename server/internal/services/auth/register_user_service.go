@@ -3,8 +3,8 @@ package services_auth
 import (
 	"errors"
 	"log"
-	"strength-forge-app/internal/dtos"
-	"strength-forge-app/internal/models"
+	"strength-forge-app/internal/domain/dtos"
+	"strength-forge-app/internal/domain/models"
 
 	"golang.org/x/crypto/bcrypt"
 )

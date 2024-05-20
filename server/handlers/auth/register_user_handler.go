@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"io"
 	"net/http"
-	"strength-forge-app/internal/dtos"
+	"strength-forge-app/internal/domain/dtos"
 	"time"
 )
 

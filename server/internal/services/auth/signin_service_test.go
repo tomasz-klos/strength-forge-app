@@ -2,8 +2,8 @@ package services_auth_test
 
 import (
 	"errors"
-	"strength-forge-app/internal/dtos"
-	"strength-forge-app/internal/models"
+	"strength-forge-app/internal/domain/dtos"
+	"strength-forge-app/internal/domain/models"
 	mock_repositories "strength-forge-app/internal/repositories/mock"
 	services "strength-forge-app/internal/services/auth"
 	mock_utils "strength-forge-app/utils/mock"

@@ -1,7 +1,7 @@
 package db
 
 import (
-	"strength-forge-app/internal/models"
+	"strength-forge-app/internal/domain/models"
 )
 
 func AutoMigrate() {

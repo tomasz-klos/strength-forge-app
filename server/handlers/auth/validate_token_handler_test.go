@@ -9,7 +9,7 @@ import (
 	"testing"
 
 	handlers_auth "strength-forge-app/handlers/auth"
-	"strength-forge-app/internal/dtos"
+	"strength-forge-app/internal/domain/dtos"
 	mock_services "strength-forge-app/internal/services/auth/mock"
 
 	"github.com/golang/mock/gomock"

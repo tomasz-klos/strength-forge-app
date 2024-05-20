@@ -1,7 +1,7 @@
 package repositories
 
 import (
-	"strength-forge-app/internal/models"
+	"strength-forge-app/internal/domain/models"
 )
 
 type UserRepository interface {
