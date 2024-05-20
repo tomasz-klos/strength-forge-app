@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	auth_handler "strength-forge-app/handlers/auth"
-	"strength-forge-app/internal/db"
+	"strength-forge-app/internal/infrastructure/db"
 	"strength-forge-app/internal/repositories"
 	auth_service "strength-forge-app/internal/services/auth"
 	"strength-forge-app/utils"
