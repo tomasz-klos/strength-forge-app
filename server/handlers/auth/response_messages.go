@@ -13,6 +13,7 @@ type JSONResponse struct {
 
 const (
 	MsgLoginSuccessful   = "login successful"
+	MsgLogoutSuccessful  = "logout successful"
 	MsgUserCreated       = "user created successfully"
 	MsgInvalidPayload    = "invalid request payload"
 	MsgUserAlreadyExists = "user already exists"
