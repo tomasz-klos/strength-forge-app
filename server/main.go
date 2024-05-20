@@ -4,8 +4,8 @@ import (
 	"log"
 	"net/http"
 
-	"strength-forge-app/db"
 	auth_handler "strength-forge-app/handlers/auth"
+	"strength-forge-app/internal/db"
 	"strength-forge-app/internal/repositories"
 	auth_service "strength-forge-app/internal/services/auth"
 	"strength-forge-app/utils"
