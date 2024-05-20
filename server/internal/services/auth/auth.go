@@ -8,7 +8,7 @@ import (
 
 type AuthService interface {
 	Register(registerUser *dtos.RegisterUser) (string, error)
-	LogIn(loginUser *dtos.LoginUser) (string, error)
+	SignIn(loginUser *dtos.LoginUser) (string, error)
 	ValidateToken(token string) (*dtos.ResponseUser, error)
 }
 

@@ -7,7 +7,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func (s *authService) LogIn(loginUser *dtos.LoginUser) (string, error) {
+func (s *authService) SignIn(loginUser *dtos.LoginUser) (string, error) {
 	user, err := s.repo.GetUserByEmail(loginUser.Email)
 	if err != nil {
 		return "", err

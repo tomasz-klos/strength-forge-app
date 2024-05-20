@@ -14,7 +14,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func TestAuthService_LogIn(t *testing.T) {
+func TestAuthService_SignIn(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
@@ -99,7 +99,7 @@ func TestAuthService_LogIn(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
 			tc.mockFunc()
-			token, err := authService.LogIn(loginUser)
+			token, err := authService.SignIn(loginUser)
 			assert.Equal(t, tc.expected, token)
 			assert.Equal(t, tc.err, err)
 		})
