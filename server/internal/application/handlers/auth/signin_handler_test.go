@@ -8,8 +8,8 @@ import (
 	"net/http"
 	"testing"
 
-	handlers_auth "strength-forge-app/handlers/auth"
 	helpers_test "strength-forge-app/helpers"
+	handlers_auth "strength-forge-app/internal/application/handlers/auth"
 	mock_services "strength-forge-app/internal/application/services/auth/mock"
 	"strength-forge-app/internal/domain/dtos"
 
