@@ -4,7 +4,7 @@ import (
 	"errors"
 	"testing"
 
-	services "strength-forge-app/internal/application/services/auth"
+	services_auth "strength-forge-app/internal/application/services/auth"
 	"strength-forge-app/internal/domain/dtos"
 	"strength-forge-app/internal/domain/models"
 	mock_repositories "strength-forge-app/internal/infrastructure/repositories/mock"
@@ -21,7 +21,7 @@ func TestAuthService_CreateUser(t *testing.T) {
 
 	userRepoMock := mock_repositories.NewMockUserRepository(ctrl)
 	tokenGeneratorMock := mock_utils.NewMockTokenGenerator(ctrl)
-	authService := services.NewAuthService(userRepoMock, tokenGeneratorMock)
+	authService := services_auth.NewAuthService(userRepoMock, tokenGeneratorMock)
 
 	registerUser := &dtos.RegisterUser{
 		Email:    "test@example.com",
