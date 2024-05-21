@@ -1,14 +1,17 @@
-import { Outlet, redirect } from "react-router-dom";
+import { Outlet, redirect, useLoaderData } from "react-router-dom";
 
 import { Toaster } from "@atoms/toaster";
 import Header from "@organisms/header";
 import { validateToken } from "@services/auth_services";
+import { User } from "@shared/user_types";
 
 const AppTemplate: React.FC = () => {
+  const user = useLoaderData() as User;
+
   return (
     <div className="flex flex-col min-h-screen bg-zinc-950 text-zinc-50">
       <main className="flex-1 flex flex-col p-4 overflow-y-auto">
-        <Outlet />
+        <Outlet context={{ user }} />
       </main>
       <Header />
       <Toaster />
@@ -18,11 +21,13 @@ const AppTemplate: React.FC = () => {
 
 export default AppTemplate;
 
-export const appTemplateLoader = async () => {
+export const appTemplateLoader = async (): Promise<User | Response> => {
   try {
-    await validateToken();
+    const res = await validateToken();
 
-    return null;
+    const user = res.data as User;
+
+    return user;
   } catch (error) {
     return redirect("/login");
   }

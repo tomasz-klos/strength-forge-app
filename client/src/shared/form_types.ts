@@ -1,7 +1,7 @@
-export type SignInFormValues = {
+export interface SignInFormValues {
   email: string;
   password: string;
-};
+}
 
 export interface RegisterFormValues {
   name: string;
