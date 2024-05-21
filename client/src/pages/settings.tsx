@@ -8,10 +8,10 @@ const Settings: React.FC = () => {
     <section className="flex-1 flex flex-col items-center justify-center gap-4">
       <h1 className="sticky top-0 text-xl font-medium text-center">Settings</h1>
 
-      <ul className="flex flex-col gap-2 mt-auto">
+      <ul className="flex flex-col gap-2 mt-auto px-8 pb-4">
         <li>
           <Button
-            className={buttonVariants({ variant: "secondary" })}
+            className={buttonVariants({ variant: "ghost" })}
             onClick={logout}
           >
             Log Out
