@@ -9,6 +9,8 @@ on:
 
 permissions:
   contents: read
+  pull-requests: read
+  checks: read
 
 jobs:
   golangci:
@@ -27,4 +29,5 @@ jobs:
         with:
           version: v1.58
           working-directory: server
+          only-new-issues: true
     
