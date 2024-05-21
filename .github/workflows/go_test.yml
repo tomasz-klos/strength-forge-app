@@ -1,0 +1,34 @@
+name: Go Test
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    concurrency:
+        group: go-tests
+        cancel-in-progress: true
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Go
+      uses: actions/setup-go@v5
+      with:
+        go-version: '1.22.2'
+
+    - name: Verify dependencies
+      run: cd server && go mod verify
+
+    - name: Install dependencies
+      run: cd server && go get ./...
+
+    - name: Build
+      run: cd server && go build -v ./...
+
+    - name: Test
+      run: cd server && go test -v ./... -cover
