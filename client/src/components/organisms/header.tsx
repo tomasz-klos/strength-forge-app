@@ -1,10 +1,13 @@
+import { MenuItem } from "@atoms/menuItem";
+
 import { HomeIcon } from "@assets/icons/home-icon";
 import { SettingsIcon } from "@assets/icons/settings-icon";
-import { MenuItem } from "@atoms/menuItem";
+import { UserIcon } from "@assets/icons/user-icon";
 
 const Header: React.FC = () => {
   const menuItems = [
     { name: "Home", url: "/", icon: HomeIcon },
+    { name: "Profile", url: "/profile", icon: UserIcon },
     { name: "Settings", url: "/settings", icon: SettingsIcon },
   ];
 
