@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [ "master" ]
 
+concurrency:
+  group: go-tests
+  cancel-in-progress: true
+
 jobs:
 
   build:
