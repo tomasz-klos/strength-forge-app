@@ -31,17 +31,15 @@ const useDateCarousel = (): CarouselHook => {
 
   const { startIndex, currentIndex, dateRange } = state;
 
-  const generateDateRange = useCallback((numDaysToShow: number): Date[] => {
+  const generateDateRange = useCallback((numDays: number): Date[] => {
     const startDate = new Date();
-    startDate.setDate(startDate.getDate() - Math.floor(numDaysToShow / 2));
+    startDate.setDate(startDate.getDate() - Math.floor(numDays / 2));
 
-    const dates: Date[] = [];
-    for (let i = 0; i < numDaysToShow; i++) {
-      const currentDate = new Date(startDate);
-      currentDate.setDate(startDate.getDate() + i);
-      dates.push(currentDate);
-    }
-    return dates;
+    return Array.from({ length: numDays }, (_, i) => {
+      const date = new Date(startDate);
+      date.setDate(startDate.getDate() + i);
+      return date;
+    });
   }, []);
 
   useEffect(() => {
