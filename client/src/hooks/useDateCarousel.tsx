@@ -3,6 +3,7 @@ import { CarouselApi } from "@atoms/carousel";
 
 interface CarouselState {
   api?: CarouselApi;
+  startIndex?: number;
   currentIndex: number;
   dateRange: Date[];
 }
@@ -23,14 +24,12 @@ interface CarouselHook {
 const useDateCarousel = (): CarouselHook => {
   const [api, setApi] = useState<CarouselApi | undefined>(undefined);
   const [state, setState] = useState<CarouselState>({
+    startIndex: 0,
     currentIndex: 0,
     dateRange: [],
   });
 
-  const numDaysToShow = 11;
-  const startIndex = Math.floor(numDaysToShow / 2);
-
-  const { currentIndex, dateRange } = state;
+  const { startIndex, currentIndex, dateRange } = state;
 
   const generateDateRange = useCallback((numDaysToShow: number): Date[] => {
     const startDate = new Date();
@@ -46,11 +45,13 @@ const useDateCarousel = (): CarouselHook => {
   }, []);
 
   useEffect(() => {
+    const numDaysToShow = 11;
     const dates = generateDateRange(numDaysToShow);
 
     setState((prevState) => ({
       ...prevState,
       dateRange: dates,
+      startIndex: Math.floor(numDaysToShow / 2),
       currentIndex: Math.floor(numDaysToShow / 2),
     }));
   }, [generateDateRange]);
