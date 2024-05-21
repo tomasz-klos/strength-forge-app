@@ -29,5 +29,4 @@ jobs:
         with:
           version: v1.58
           working-directory: server
-          only-new-issues: true
     
