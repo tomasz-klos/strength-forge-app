@@ -22,7 +22,7 @@ jobs:
       run: cd server && go mod verify
 
     - name: Install dependencies
-      run: cd server && go get.
+      run: cd server && go get ./...
 
     - name: Build
       run: cd server && go build -v./...
