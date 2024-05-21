@@ -6,7 +6,7 @@ package mock_repositories
 
 import (
 	reflect "reflect"
-	models "strength-forge-app/internal/models"
+	models "strength-forge-app/internal/domain/models"
 
 	gomock "github.com/golang/mock/gomock"
 )

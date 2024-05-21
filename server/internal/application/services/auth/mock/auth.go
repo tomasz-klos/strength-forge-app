@@ -6,7 +6,7 @@ package mock_services_auth
 
 import (
 	reflect "reflect"
-	dtos "strength-forge-app/internal/dtos"
+	dtos "strength-forge-app/internal/domain/dtos"
 
 	gomock "github.com/golang/mock/gomock"
 )
