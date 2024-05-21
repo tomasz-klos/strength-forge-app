@@ -6,7 +6,7 @@ import (
 
 	auth_handler "strength-forge-app/handlers/auth"
 	"strength-forge-app/internal/infrastructure/db"
-	"strength-forge-app/internal/repositories"
+	"strength-forge-app/internal/infrastructure/repositories"
 	auth_service "strength-forge-app/internal/services/auth"
 	"strength-forge-app/utils"
 

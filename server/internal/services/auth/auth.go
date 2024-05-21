@@ -2,7 +2,7 @@ package services_auth
 
 import (
 	"strength-forge-app/internal/domain/dtos"
-	"strength-forge-app/internal/repositories"
+	"strength-forge-app/internal/infrastructure/repositories"
 	"strength-forge-app/utils"
 )
 

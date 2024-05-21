@@ -4,7 +4,7 @@ import (
 	"errors"
 	"strength-forge-app/internal/domain/dtos"
 	"strength-forge-app/internal/domain/models"
-	mock_repositories "strength-forge-app/internal/repositories/mock"
+	mock_repositories "strength-forge-app/internal/infrastructure/repositories/mock"
 	services "strength-forge-app/internal/services/auth"
 	mock_utils "strength-forge-app/utils/mock"
 	"testing"
