@@ -4,10 +4,10 @@ import (
 	"errors"
 	"testing"
 
+	services "strength-forge-app/internal/application/services/auth"
 	"strength-forge-app/internal/domain/dtos"
 	"strength-forge-app/internal/domain/models"
 	mock_repositories "strength-forge-app/internal/infrastructure/repositories/mock"
-	services "strength-forge-app/internal/services/auth"
 	mock_utils "strength-forge-app/utils/mock"
 
 	"github.com/golang/mock/gomock"

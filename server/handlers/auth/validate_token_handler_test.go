@@ -9,8 +9,8 @@ import (
 	"testing"
 
 	handlers_auth "strength-forge-app/handlers/auth"
+	mock_services "strength-forge-app/internal/application/services/auth/mock"
 	"strength-forge-app/internal/domain/dtos"
-	mock_services "strength-forge-app/internal/services/auth/mock"
 
 	"github.com/golang/mock/gomock"
 	"github.com/google/uuid"

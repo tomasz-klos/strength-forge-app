@@ -1,7 +1,7 @@
 package handlers_auth
 
 import (
-	auth_service "strength-forge-app/internal/services/auth"
+	auth_service "strength-forge-app/internal/application/services/auth"
 )
 
 type AuthHandler struct {

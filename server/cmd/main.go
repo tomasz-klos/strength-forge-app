@@ -5,9 +5,9 @@ import (
 	"net/http"
 
 	auth_handler "strength-forge-app/handlers/auth"
+	auth_service "strength-forge-app/internal/application/services/auth"
 	"strength-forge-app/internal/infrastructure/db"
 	"strength-forge-app/internal/infrastructure/repositories"
-	auth_service "strength-forge-app/internal/services/auth"
 	"strength-forge-app/utils"
 
 	"github.com/rs/cors"

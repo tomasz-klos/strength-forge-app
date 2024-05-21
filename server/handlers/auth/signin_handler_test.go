@@ -10,8 +10,8 @@ import (
 
 	handlers_auth "strength-forge-app/handlers/auth"
 	helpers_test "strength-forge-app/helpers"
+	mock_services "strength-forge-app/internal/application/services/auth/mock"
 	"strength-forge-app/internal/domain/dtos"
-	mock_services "strength-forge-app/internal/services/auth/mock"
 
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
