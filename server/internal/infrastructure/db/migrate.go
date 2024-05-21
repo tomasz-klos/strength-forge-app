@@ -5,5 +5,8 @@ import (
 )
 
 func AutoMigrate() {
-	DB.AutoMigrate(&models.User{})
+	err := DB.AutoMigrate(&models.User{})
+	if err != nil {
+		panic(err)
+	}
 }
