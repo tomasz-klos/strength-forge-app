@@ -7,6 +7,10 @@ interface CarouselState {
   dateRange: Date[];
 }
 
+interface Config {
+  selectedScrollSnap: () => number;
+}
+
 interface CarouselHook {
   api?: CarouselApi;
   setApi: (api: CarouselApi) => void;
@@ -54,15 +58,15 @@ const useDateCarousel = (): CarouselHook => {
   useEffect(() => {
     if (!api) return;
 
-    const onSelect = (config: any) => {
+    const handleSelect = (config: Config) => {
       const index = config.selectedScrollSnap();
       setState((prevState) => ({ ...prevState, currentIndex: index }));
     };
 
-    api.on("select", onSelect);
+    api.on("select", handleSelect);
 
     return () => {
-      api.off("select", onSelect);
+      api.off("select", handleSelect);
     };
   }, [api]);
 
