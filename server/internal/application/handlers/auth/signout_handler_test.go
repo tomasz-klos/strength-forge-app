@@ -7,7 +7,7 @@ import (
 	"time"
 
 	handlers_auth "strength-forge-app/internal/application/handlers/auth"
-	helpers_test "strength-forge-app/internal/utils"
+	"strength-forge-app/internal/utils"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -45,7 +45,7 @@ func TestAuthHandler_SignOut(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-			recorder := helpers_test.ExecuteRequest(t, tc.method, "/api/auth/signout", nil, handler)
+			recorder := utils.ExecuteRequest(t, tc.method, "/api/auth/signout", nil, handler)
 
 			assert.Equal(t, tc.expectedStatus, recorder.Code)
 

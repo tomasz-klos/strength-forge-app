@@ -9,9 +9,9 @@ import (
 	"testing"
 
 	handlers_auth "strength-forge-app/internal/application/handlers/auth"
-	mock_services "strength-forge-app/internal/application/services/auth/mock"
+	mock_services_auth "strength-forge-app/internal/application/services/auth/mock"
 	"strength-forge-app/internal/domain/dtos"
-	helpers_test "strength-forge-app/internal/utils"
+	"strength-forge-app/internal/utils"
 
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
@@ -21,7 +21,7 @@ func TestAuthHandler_RegisterUser(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	mockService := mock_services.NewMockAuthService(ctrl)
+	mockService := mock_services_auth.NewMockAuthService(ctrl)
 
 	registerUser := dtos.RegisterUser{
 		Name:     "TestUser",
@@ -126,7 +126,7 @@ func TestAuthHandler_RegisterUser(t *testing.T) {
 			switch input := tc.input.(type) {
 			case string:
 				if input == "" && tc.name == "Read body error" {
-					body = &helpers_test.ErrorReader{}
+					body = &utils.ErrorReader{}
 				} else {
 					body = bytes.NewBuffer([]byte(input))
 				}
@@ -137,7 +137,7 @@ func TestAuthHandler_RegisterUser(t *testing.T) {
 
 			tc.mockSetup()
 
-			recorder := helpers_test.ExecuteRequest(t, tc.method, "/api/auth/register", body, handler)
+			recorder := utils.ExecuteRequest(t, tc.method, "/api/auth/register", body, handler)
 
 			assert.Equal(t, tc.expectedStatus, recorder.Code)
 

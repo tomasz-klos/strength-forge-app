@@ -9,7 +9,7 @@ import (
 	"testing"
 
 	handlers_auth "strength-forge-app/internal/application/handlers/auth"
-	mock_services "strength-forge-app/internal/application/services/auth/mock"
+	mock_services_auth "strength-forge-app/internal/application/services/auth/mock"
 	"strength-forge-app/internal/domain/dtos"
 
 	"github.com/golang/mock/gomock"
@@ -21,7 +21,7 @@ func TestAuthHandler_ValidateToken(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	mockService := mock_services.NewMockAuthService(ctrl)
+	mockService := mock_services_auth.NewMockAuthService(ctrl)
 
 	testToken := "valid_token"
 	testUser := &dtos.ResponseUser{
