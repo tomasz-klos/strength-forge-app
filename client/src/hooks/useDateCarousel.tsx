@@ -1,17 +1,38 @@
 import { useState, useEffect, useCallback } from "react";
 import { CarouselApi } from "@atoms/carousel";
 
-const useDateCarousel = () => {
-  const [api, setApi] = useState<CarouselApi | undefined>();
-  const [startIndex, setStartIndex] = useState<number>(0);
-  const [currentIndex, setCurrentIndex] = useState<number>(0);
-  const [dateRange, setDateRange] = useState<Date[]>([]);
+interface CarouselState {
+  api?: CarouselApi;
+  currentIndex: number;
+  dateRange: Date[];
+}
 
-  const generateDateRange = useCallback((numDaysToShow: number) => {
+interface CarouselHook {
+  api?: CarouselApi;
+  setApi: (api: CarouselApi) => void;
+  currentIndex: number;
+  dateRange: Date[];
+  startIndex?: number;
+  formatDate: (date: Date | null) => string;
+}
+
+const useDateCarousel = (): CarouselHook => {
+  const [api, setApi] = useState<CarouselApi | undefined>(undefined);
+  const [state, setState] = useState<CarouselState>({
+    currentIndex: 0,
+    dateRange: [],
+  });
+
+  const numDaysToShow = 11;
+  const startIndex = Math.floor(numDaysToShow / 2);
+
+  const { currentIndex, dateRange } = state;
+
+  const generateDateRange = useCallback((numDaysToShow: number): Date[] => {
     const startDate = new Date();
     startDate.setDate(startDate.getDate() - Math.floor(numDaysToShow / 2));
 
-    const dates = [];
+    const dates: Date[] = [];
     for (let i = 0; i < numDaysToShow; i++) {
       const currentDate = new Date(startDate);
       currentDate.setDate(startDate.getDate() + i);
@@ -21,12 +42,13 @@ const useDateCarousel = () => {
   }, []);
 
   useEffect(() => {
-    const numDaysToShow = 11;
     const dates = generateDateRange(numDaysToShow);
 
-    setDateRange(dates);
-    setStartIndex(Math.floor(numDaysToShow / 2));
-    setCurrentIndex(Math.floor(numDaysToShow / 2));
+    setState((prevState) => ({
+      ...prevState,
+      dateRange: dates,
+      currentIndex: Math.floor(numDaysToShow / 2),
+    }));
   }, [generateDateRange]);
 
   useEffect(() => {
@@ -34,7 +56,7 @@ const useDateCarousel = () => {
 
     const onSelect = (config: any) => {
       const index = config.selectedScrollSnap();
-      setCurrentIndex(index);
+      setState((prevState) => ({ ...prevState, currentIndex: index }));
     };
 
     api.on("select", onSelect);
@@ -44,14 +66,14 @@ const useDateCarousel = () => {
     };
   }, [api]);
 
-  const formatDate = (date: Date) => {
+  const formatDate = (date: Date | null): string => {
     if (!date) return "";
 
     const today = new Date();
-    const tomorrow = new Date();
-    const yesterday = new Date();
-
+    const tomorrow = new Date(today);
     tomorrow.setDate(today.getDate() + 1);
+
+    const yesterday = new Date(today);
     yesterday.setDate(today.getDate() - 1);
 
     const isToday = date.toDateString() === today.toDateString();

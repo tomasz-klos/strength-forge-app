@@ -26,7 +26,7 @@ const DateCarousel: React.FC = () => {
       orientation="horizontal"
       setApi={setApi}
       opts={{
-        startIndex: startIndex,
+        startIndex,
       }}
     >
       <div className="flex items-center justify-between">
@@ -34,6 +34,7 @@ const DateCarousel: React.FC = () => {
         <p>{formatDate(dateRange[currentIndex])}</p>
         <CarouselNext className="static transform-none" />
       </div>
+
       <CarouselContent>{renderCalendarSlides()}</CarouselContent>
     </Carousel>
   );
