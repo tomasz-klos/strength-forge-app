@@ -6,8 +6,8 @@ import (
 	"testing"
 	"time"
 
-	helpers_test "strength-forge-app/helpers"
 	handlers_auth "strength-forge-app/internal/application/handlers/auth"
+	helpers_test "strength-forge-app/internal/utils"
 
 	"github.com/stretchr/testify/assert"
 )

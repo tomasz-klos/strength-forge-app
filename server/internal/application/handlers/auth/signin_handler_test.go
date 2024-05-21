@@ -8,10 +8,10 @@ import (
 	"net/http"
 	"testing"
 
-	helpers_test "strength-forge-app/helpers"
 	handlers_auth "strength-forge-app/internal/application/handlers/auth"
 	mock_services "strength-forge-app/internal/application/services/auth/mock"
 	"strength-forge-app/internal/domain/dtos"
+	helpers_test "strength-forge-app/internal/utils"
 
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"

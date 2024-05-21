@@ -8,7 +8,7 @@ import (
 	auth_service "strength-forge-app/internal/application/services/auth"
 	"strength-forge-app/internal/infrastructure/db"
 	"strength-forge-app/internal/infrastructure/repositories"
-	"strength-forge-app/utils"
+	"strength-forge-app/internal/utils"
 
 	"github.com/rs/cors"
 )

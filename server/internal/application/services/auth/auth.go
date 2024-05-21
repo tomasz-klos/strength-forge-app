@@ -3,7 +3,7 @@ package services_auth
 import (
 	"strength-forge-app/internal/domain/dtos"
 	"strength-forge-app/internal/infrastructure/repositories"
-	"strength-forge-app/utils"
+	"strength-forge-app/internal/utils"
 )
 
 type AuthService interface {

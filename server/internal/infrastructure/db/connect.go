@@ -3,7 +3,7 @@ package db
 import (
 	"fmt"
 	"log"
-	"strength-forge-app/utils"
+	"strength-forge-app/internal/utils"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"

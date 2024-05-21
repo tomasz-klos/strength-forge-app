@@ -8,7 +8,7 @@ import (
 	"strength-forge-app/internal/domain/dtos"
 	"strength-forge-app/internal/domain/models"
 	mock_repositories "strength-forge-app/internal/infrastructure/repositories/mock"
-	mock_utils "strength-forge-app/utils/mock"
+	mock_utils "strength-forge-app/internal/utils/mock"
 
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
