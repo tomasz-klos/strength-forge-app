@@ -6,9 +6,6 @@ on:
   pull_request:
     branches: [ "master" ]
 
-concurrency:
-  group: linting
-  cancel-in-progress: true
 
 permissions:
   contents: read
@@ -17,6 +14,9 @@ jobs:
   golangci:
     name: lint
     runs-on: ubuntu-latest
+    concurrency:
+      group: linting
+      cancel-in-progress: true
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5

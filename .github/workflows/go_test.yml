@@ -6,14 +6,13 @@ on:
   pull_request:
     branches: [ "master" ]
 
-concurrency:
-  group: go-tests
-  cancel-in-progress: true
-
+    
 jobs:
-
   build:
     runs-on: ubuntu-latest
+    concurrency:
+        group: go-tests
+        cancel-in-progress: true
     steps:
     - uses: actions/checkout@v4
 
