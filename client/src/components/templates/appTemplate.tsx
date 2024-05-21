@@ -21,7 +21,7 @@ const AppTemplate: React.FC = () => {
 
 export default AppTemplate;
 
-export const appTemplateLoader = async (): Promise<User | null> => {
+export const appTemplateLoader = async (): Promise<User | Response> => {
   try {
     const res = await validateToken();
 
@@ -29,8 +29,6 @@ export const appTemplateLoader = async (): Promise<User | null> => {
 
     return user;
   } catch (error) {
-    redirect("/login");
-
-    return null;
+    return redirect("/login");
   }
 };
