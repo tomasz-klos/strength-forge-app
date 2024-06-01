@@ -3,7 +3,7 @@ import { Outlet, redirect, useLoaderData } from "react-router-dom";
 import { Toaster } from "@atoms/toaster";
 import Header from "@organisms/header";
 import { validateToken } from "@services/auth_services";
-import { User } from "@shared/user_types";
+import type { User } from "@shared/user_types";
 
 const AppTemplate: React.FC = () => {
   const user = useLoaderData() as User;

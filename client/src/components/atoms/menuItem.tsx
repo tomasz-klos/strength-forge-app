@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { cn } from "@lib/utils";
 import { IconProps } from "@assets/icons";
 
@@ -6,12 +6,15 @@ type MenuItemProps = {
   name: string;
   url: string;
   icon: React.FC<IconProps>;
+  isActive?: boolean;
 };
 
-export const MenuItem = ({ name, url, icon }: MenuItemProps) => {
-  const location = useLocation();
-  const isActive = location.pathname === url;
-
+export const MenuItem = ({
+  name,
+  url,
+  icon,
+  isActive = false,
+}: MenuItemProps) => {
   const Icon = icon;
 
   return (

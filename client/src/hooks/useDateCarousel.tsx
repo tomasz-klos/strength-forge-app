@@ -1,58 +1,83 @@
 import { useState, useEffect, useCallback } from "react";
 import { CarouselApi } from "@atoms/carousel";
 
-const useDateCarousel = () => {
-  const [api, setApi] = useState<CarouselApi | undefined>();
-  const [startIndex, setStartIndex] = useState<number>(0);
-  const [currentIndex, setCurrentIndex] = useState<number>(0);
-  const [dateRange, setDateRange] = useState<Date[]>([]);
+interface CarouselState {
+  api?: CarouselApi;
+  startIndex?: number;
+  currentIndex: number;
+  dateRange: Date[];
+}
 
-  const generateDateRange = useCallback((numDaysToShow: number) => {
+interface Config {
+  selectedScrollSnap: () => number;
+}
+
+interface CarouselHook {
+  api?: CarouselApi;
+  setApi: (api: CarouselApi) => void;
+  currentIndex: number;
+  dateRange: Date[];
+  startIndex?: number;
+  formatDate: (date: Date | null) => string;
+}
+
+const useDateCarousel = (): CarouselHook => {
+  const [api, setApi] = useState<CarouselApi | undefined>(undefined);
+  const [state, setState] = useState<CarouselState>({
+    startIndex: 0,
+    currentIndex: 0,
+    dateRange: [],
+  });
+
+  const { startIndex, currentIndex, dateRange } = state;
+
+  const generateDateRange = useCallback((numDays: number): Date[] => {
     const startDate = new Date();
-    startDate.setDate(startDate.getDate() - Math.floor(numDaysToShow / 2));
+    startDate.setDate(startDate.getDate() - Math.floor(numDays / 2));
 
-    const dates = [];
-    for (let i = 0; i < numDaysToShow; i++) {
-      const currentDate = new Date(startDate);
-      currentDate.setDate(startDate.getDate() + i);
-      dates.push(currentDate);
-    }
-    return dates;
+    return Array.from({ length: numDays }, (_, i) => {
+      const date = new Date(startDate);
+      date.setDate(startDate.getDate() + i);
+      return date;
+    });
   }, []);
 
   useEffect(() => {
     const numDaysToShow = 11;
     const dates = generateDateRange(numDaysToShow);
 
-    setDateRange(dates);
-    setStartIndex(Math.floor(numDaysToShow / 2));
-    setCurrentIndex(Math.floor(numDaysToShow / 2));
+    setState((prevState) => ({
+      ...prevState,
+      dateRange: dates,
+      startIndex: Math.floor(numDaysToShow / 2),
+      currentIndex: Math.floor(numDaysToShow / 2),
+    }));
   }, [generateDateRange]);
 
   useEffect(() => {
     if (!api) return;
 
-    const onSelect = (config: any) => {
+    const handleSelect = (config: Config) => {
       const index = config.selectedScrollSnap();
-      setCurrentIndex(index);
+      setState((prevState) => ({ ...prevState, currentIndex: index }));
     };
 
-    api.on("select", onSelect);
+    api.on("select", handleSelect);
 
     return () => {
-      api.off("select", onSelect);
+      api.off("select", handleSelect);
     };
   }, [api]);
 
-  const formatDate = (date: Date) => {
+  const today = new Date();
+  const tomorrow = new Date(today);
+  tomorrow.setDate(today.getDate() + 1);
+
+  const yesterday = new Date(today);
+  yesterday.setDate(today.getDate() - 1);
+
+  const formatDate = (date: Date | null): string => {
     if (!date) return "";
-
-    const today = new Date();
-    const tomorrow = new Date();
-    const yesterday = new Date();
-
-    tomorrow.setDate(today.getDate() + 1);
-    yesterday.setDate(today.getDate() - 1);
 
     const isToday = date.toDateString() === today.toDateString();
     const isTomorrow = date.toDateString() === tomorrow.toDateString();

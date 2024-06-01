@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 
-import { RegisterFormValues, SignInFormValues } from "@shared/form_types";
 import { API_ROUTES } from "@config/enums";
+import type { RegisterFormValues, SignInFormValues } from "@shared/form_types";
 
 export const signInUser = async (data: SignInFormValues) => {
   try {

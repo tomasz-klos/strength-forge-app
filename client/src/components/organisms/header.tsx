@@ -1,3 +1,5 @@
+import { useLocation } from "react-router-dom";
+
 import { MenuItem } from "@atoms/menuItem";
 
 import { HomeIcon } from "@assets/icons/home-icon";
@@ -5,6 +7,8 @@ import { SettingsIcon } from "@assets/icons/settings-icon";
 import { UserIcon } from "@assets/icons/user-icon";
 
 const Header: React.FC = () => {
+  const location = useLocation();
+
   const menuItems = [
     { name: "Home", url: "/", icon: HomeIcon },
     { name: "Profile", url: "/profile", icon: UserIcon },
@@ -21,6 +25,7 @@ const Header: React.FC = () => {
               name={item.name}
               url={item.url}
               icon={item.icon}
+              isActive={location.pathname === item.url}
             />
           ))}
         </ul>
