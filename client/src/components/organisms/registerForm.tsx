@@ -12,7 +12,7 @@ import useAuthForm from "@hooks/useAuthForm";
 import { registerSchema } from "@schemas/auth_schemas";
 import { registerUser } from "@services/auth_services";
 
-import { RegisterFormValues } from "@shared/form_types";
+import type { RegisterFormValues } from "@shared/form_types";
 
 const RegisterForm: React.FC = () => {
   const { form, onSubmit } = useAuthForm<RegisterFormValues>({

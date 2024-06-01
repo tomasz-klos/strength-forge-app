@@ -12,7 +12,7 @@ import useAuthForm from "@hooks/useAuthForm";
 import { signInSchema } from "@schemas/auth_schemas";
 import { signInUser } from "@services/auth_services";
 
-import { SignInFormValues } from "@shared/form_types";
+import type { SignInFormValues } from "@shared/form_types";
 
 const SignInForm: React.FC = () => {
   const { form, onSubmit } = useAuthForm<SignInFormValues>({

@@ -1,6 +1,6 @@
 import { useOutletContext } from "react-router-dom";
 
-import { OutletContextValue } from "@shared/outletContext_types";
+import type { OutletContextValue } from "@shared/outletContext_types";
 
 const Profile: React.FC = () => {
   const { user } = useOutletContext<OutletContextValue>();
